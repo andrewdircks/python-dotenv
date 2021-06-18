@@ -18,8 +18,8 @@ with io.open('./src/dotenv/version.py', encoding='utf-8') as f:
     exec(f.read(), meta)
 
 setup(
-    name="python-dotenv",
-    description="Read key-value pairs from a .env file and set them as environment variables",
+    name="python-dotenv-yaml",
+    description="Read key-value pairs from a .env file and set them as environment variables -> with support for yaml syntax",
     long_description=long_description,
     long_description_content_type='text/markdown',
     version=meta['__version__'],
