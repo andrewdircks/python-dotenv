@@ -20,8 +20,9 @@ _multiline_whitespace = make_regex(r"\s*", extra_flags=re.MULTILINE)
 _whitespace = make_regex(r"[^\S\r\n]*")
 _export = make_regex(r"(?:export[^\S\r\n]+)?")
 _single_quoted_key = make_regex(r"'([^']+)'")
-_unquoted_key = make_regex(r"([^=\#\s]+)")
+_unquoted_key = make_regex(r"([^:=\#\s]+)")
 _equal_sign = make_regex(r"(=[^\S\r\n]*)")
+_colon = make_regex(r"(:[^\S\r\n]*)")
 _single_quoted_value = make_regex(r"'((?:\\'|[^'])*)'")
 _double_quoted_value = make_regex(r'"((?:\\"|[^"])*)"')
 _unquoted_value = make_regex(r"([^\r\n]*)")
@@ -203,6 +204,9 @@ def parse_binding(reader):
         reader.read_regex(_whitespace)
         if reader.peek(1) == "=":
             reader.read_regex(_equal_sign)
+            value = parse_value(reader)  # type: Optional[Text]
+        elif reader.peek(1) == ":":
+            reader.read_regex(_colon)
             value = parse_value(reader)  # type: Optional[Text]
         else:
             value = None
